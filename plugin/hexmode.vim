@@ -34,16 +34,18 @@ function ToggleHex()
         " set status
         let b:editHex=1
         " switch to hex editor
-        silent %!xxd
+        silent %!xxd -p -c 16
+        " add spaces every 4 characters (2 bytes)
+        silent %s/\(....\)/\1 /g
         " set new options
         let &l:bin=1 " make sure it overrides any textwidth, etc.
-        let &l:ft="xxd"
+        let &l:ft="xxd -p -c 16"
     else
         " restore old options
         let &l:ft = b:oldft
         let &l:bin = b:oldbin
         " return to normal editing
-        silent %!xxd -r
+        silent %!xxd -r -p
         " set status
         let b:editHex=0
     endif
@@ -119,7 +121,7 @@ if has("autocmd")
             \  let b:oldro=&l:ro | let &l:ro=0 |
             \  let b:oldma=&l:ma | let &l:ma=1 |
             \  undojoin |
-            \  silent exe "%!xxd -r" |
+            \  silent exe "%!xxd -r -p" |
             \  let &l:ma=b:oldma | let &l:ro=b:oldro |
             \  unlet b:oldma | unlet b:oldro |
             \  let &l:ul = &l:ul |
@@ -131,7 +133,8 @@ if has("autocmd")
             \  let b:oldro=&l:ro | let &l:ro=0 |
             \  let b:oldma=&l:ma | let &l:ma=1 |
             \  undojoin |
-            \  silent exe "%!xxd" |
+            \  silent exe "%!xxd -p -c 16" |
+            \  silent %s/\(....\)/\1 /g |
             \  exe "setlocal nomod" |
             \  let &l:ma=b:oldma | let &l:ro=b:oldro |
             \  unlet b:oldma | unlet b:oldro |
