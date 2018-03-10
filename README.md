@@ -34,7 +34,7 @@ second command is quite long.
 Now we can clone this repository into your `~/.vim/bundle` directory.
 
 1. `cd ~/.vim/bundle`
-2. `git clone https://github.com/fidian/hexmode.git`
+2. `git clone https://github.com/tagno25/hexmode.git`
 
 
 Usage
